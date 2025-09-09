@@ -5,6 +5,6 @@
 
 @layer base {
   body{
-    @apply bg-amber-50;
+    @apply bg-[#F0F9FF];
   }
 }
