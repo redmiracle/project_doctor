@@ -5,6 +5,6 @@
 
 @layer base {
   body{
-    @apply bg-[#F0F9FF];
+    @apply bg-[#F0F9FF] text-gray-700;
   }
 }
