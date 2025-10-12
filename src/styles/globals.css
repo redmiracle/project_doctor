@@ -3,8 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base {
+
+
   body{
-    @apply bg-[#F0F9FF] text-gray-700;
+    @apply bg-[#F0F9FF] text-gray-700 font-nunito;
+
   }
+}
+
+
+
+
+@theme {
+  --font-nunito: "Nunito Sans", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }

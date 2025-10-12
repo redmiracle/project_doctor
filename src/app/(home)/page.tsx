@@ -1,8 +1,13 @@
-export default function Home() {
-  return (
-    <div>
-        MediSync
+import MainPage from "@/components/ui/home/MainPage";
 
-    </div>
-  );
+
+
+export default async function Home() {
+
+
+    return (
+        <div>
+            <MainPage/>
+        </div>
+    );
 }

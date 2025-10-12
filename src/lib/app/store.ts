@@ -1,24 +1,11 @@
-import { configureStore,createSlice } from '@reduxjs/toolkit'
-
-
-
-
-const dummySlice = createSlice({
-    name: 'dummy',
-    initialState: {},
-    reducers: {},
-})
-
+import { configureStore} from '@reduxjs/toolkit'
+import alertCount from "@/lib/app/slices/ALertCountSlice";
 
 export const store = configureStore({
     reducer: {
-        dummy: dummySlice.reducer,
+       alertCount,
     },
 })
-
-
-
-
 
 
 export type RootState = ReturnType<typeof store.getState>
