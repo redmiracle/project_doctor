@@ -18,7 +18,6 @@ export default function PatientForm({ regData, setRegData }: PatientFormProps) {
     };
     return (
         <div onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormFields formData={regData} setFormData={setRegData} />
                 <div>
                     <label  className="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
                     <input name="patientId" type="text" placeholder="Enter your patient ID"

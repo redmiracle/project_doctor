@@ -4,6 +4,7 @@ import {useState} from "react";
 import PatientForm from "@/components/ui/login/SignIn/forms/PatientForm/PatientForm";
 import DoctorForm from "@/components/ui/login/SignIn/forms/DoctorForm/DoctorForm";
 import {validateForm} from "@/lib/utils/validation";
+import FormFields from "@/components/ui/login/SignIn/forms/FormFields/FormFields";
 
 
 interface regDataPatient {
@@ -33,20 +34,24 @@ interface regDataDoctor {
 export default function SignIn() {
     const [patientData, setPatientData] = useState<Partial<regDataPatient>>({});
     const [doctorData, setDoctorData] = useState<Partial<regDataDoctor>>({});
-    const [userType, setUserType] = useState<"patient" | "doctor">("patient");
+    const [formFildData, setFormFildData] = useState<Partial<regDataPatient>>({});
+    const [isDoctor, setIsDoctor] = useState<boolean>(false);
     const [errors, setErrors] = useState<Partial<regDataPatient | regDataDoctor>>({});
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        if (userType === "patient") {
-            setPatientData((prev) => ({ ...prev, [name]: value }));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const {name, value} = e.target;
+
+        if (!isDoctor) {
+            setPatientData((prev) => ({...prev, [name]: value}));
         } else {
-            setDoctorData((prev) => ({ ...prev, [name]: value }));
-        }};
+            setDoctorData((prev) => ({...prev, [name]: value}));
+        }
+    };
 
     const handleClick = () => {
-        const currentData = userType === "patient" ? patientData : doctorData;
+
+        const currentData=isDoctor ? doctorData : patientData;
+        console.log(currentData);
         const validationErrors = validateForm(currentData);
         setErrors(validationErrors as Partial<regDataPatient> | Partial<regDataDoctor>);
 
@@ -67,29 +72,32 @@ export default function SignIn() {
             <div className="flex justify-center -mt-6">
                 <div className="bg-white rounded-full p-1 shadow-md flex items-center">
                     <button className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                            userType === "patient" ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`} onClick={() => setUserType("patient")}>Patient
+                        !isDoctor ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
+                            onClick={() => setIsDoctor(false)}>Patient
                     </button>
                     <button className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                            userType === "doctor" ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`} onClick={() => setUserType("doctor")}>Doctor
+                        isDoctor ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
+                            onClick={() => setIsDoctor(true)}>Doctor
                     </button>
                 </div>
             </div>
-            <div className="relative w-full mx-auto min-h-[500px] mt-6">
-                <div className={`absolute inset-0 transition-opacity duration-500 ${
-                        userType === "patient" ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"}`}>
-                    <div className="bg-white rounded-lg px-6 w-full h-full">
-                        <PatientForm regData={patientData} setRegData={setPatientData} />
-                    </div>
-                </div>
-                <div className={`absolute inset-0 transition-opacity duration-500 ${
-                        userType === "doctor" ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"}`}>
-                    <div className="bg-white rounded-lg px-6 w-full h-full">
-                        <DoctorForm regData={doctorData} setRegData={setDoctorData} />
-                    </div>
-                </div>
+            <div className="relative w-full mx-auto min-h-[500px] mt-6 px-5">
+                <FormFields handleChange={handleChange}/>
+                {isDoctor ?
+                    <DoctorForm regData={""} setFormData={setDoctorData}/>
+
+                    :
+
+                   <PatientForm regData={""} setFormData={setPatientData}/>
+
+
+                }
+
+
             </div>
             <div>
-                <button type="submit" onClick={handleClick} className="w-60 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-md flex items-center justify-center mx-auto">Register
+                <button type="submit" onClick={handleClick}
+                        className="w-60 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-md flex items-center justify-center mx-auto">Register
                 </button>
             </div>
             <p className="my-4 text-center text-sm text-gray-600">Already have an account?
