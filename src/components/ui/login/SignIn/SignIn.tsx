@@ -5,6 +5,7 @@ import PatientForm from "@/components/ui/login/SignIn/forms/PatientForm/PatientF
 import DoctorForm from "@/components/ui/login/SignIn/forms/DoctorForm/DoctorForm";
 import {validateForm} from "@/lib/utils/validation";
 import FormFields from "@/components/ui/login/SignIn/forms/FormFields/FormFields";
+import axios from "axios";
 
 
 interface regDataPatient {
@@ -48,19 +49,26 @@ export default function SignIn() {
         }
     };
 
-    const handleClick = () => {
+    const  handleClick =async () => {
 
         const currentData=isDoctor ? doctorData : patientData;
         console.log(currentData);
-        const validationErrors = validateForm(currentData);
-        setErrors(validationErrors as Partial<regDataPatient> | Partial<regDataDoctor>);
-
-        const hasError = Object.values(validationErrors).some((err) => err !== null);
-        if (!hasError) {
-            console.log("The form is valid, data to send:", currentData);
-        } else {
-            console.log("Validation errors:", validationErrors);
+        try{
+            const res = axios.post("http://localhost:8080/account/register/patient", currentData);
+            console.log(res);
         }
+        catch (error){
+            console.log(error);
+        }
+        // const validationErrors = validateForm(currentData);
+        // setErrors(validationErrors as Partial<regDataPatient> | Partial<regDataDoctor>);
+        //
+        // const hasError = Object.values(validationErrors).some((err) => err !== null);
+        // if (!hasError) {
+        //     console.log("The form is valid, data to send:", currentData);
+        // } else {
+        //     console.log("Validation errors:", validationErrors);
+        // }
     };
 
     return (
@@ -84,11 +92,11 @@ export default function SignIn() {
             <div className="relative w-full mx-auto min-h-[500px] mt-6 px-5">
                 <FormFields handleChange={handleChange}/>
                 {isDoctor ?
-                    <DoctorForm regData={""} setFormData={setDoctorData}/>
+                    <DoctorForm handleChange={handleChange}/>
 
                     :
 
-                   <PatientForm regData={""} setFormData={setPatientData}/>
+                   <PatientForm handleChange={handleChange}/>
 
 
                 }
