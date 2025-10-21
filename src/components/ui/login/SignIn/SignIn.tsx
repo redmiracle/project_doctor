@@ -3,7 +3,7 @@ import React from "react";
 import {useState} from "react";
 import PatientForm from "@/components/ui/login/SignIn/forms/PatientForm/PatientForm";
 import DoctorForm from "@/components/ui/login/SignIn/forms/DoctorForm/DoctorForm";
-import {validateForm} from "@/lib/utils/validation";
+
 import FormFields from "@/components/ui/login/SignIn/forms/FormFields/FormFields";
 import axios from "axios";
 
@@ -39,19 +39,28 @@ export default function SignIn() {
     const [isDoctor, setIsDoctor] = useState<boolean>(false);
     const [errors, setErrors] = useState<Partial<regDataPatient | regDataDoctor>>({});
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,type:string) => {
         const {name, value} = e.target;
 
-        if (!isDoctor) {
-            setPatientData((prev) => ({...prev, [name]: value}));
-        } else {
-            setDoctorData((prev) => ({...prev, [name]: value}));
+        switch (type) {
+            case 'doctor':
+                setDoctorData((prev) => ({...prev, [name]: value}))
+            case 'patient':
+                setPatientData((prev) => ({...prev, [name]: value}))
+            case 'formFields':
+                setFormFildData((prev) => ({...prev, [name]: value}));
         }
+
+        // if (!isDoctor) {
+        //     setPatientData((prev) => ({...prev, [name]: value}));
+        // } else {
+        //     setDoctorData((prev) => ({...prev, [name]: value}));
+        // }
     };
 
     const  handleClick =async () => {
 
-        const currentData=isDoctor ? doctorData : patientData;
+        const currentData=isDoctor ? {...formFildData,...doctorData} : {...formFildData,...patientData};
         console.log(currentData);
         try{
             const res = axios.post("http://localhost:8080/account/register/patient", currentData);
