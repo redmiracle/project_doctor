@@ -8,38 +8,37 @@ import FormFields from "@/components/ui/login/SignIn/forms/FormFields/FormFields
 import axios from "axios";
 
 
-interface regDataPatient {
+
+export interface formFildDataType{
     firstName: string;
     lastName: string;
     email: string;
     password: string;
     phoneNum: string;
     hospital: string;
+}
+
+
+export interface regDataPatientType extends formFildDataType {
     bloodGroup: string;
     allergic: string;
     patientID: string;
 }
 
-interface regDataDoctor {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    phoneNum: string;
-    hospital: string;
+export interface regDataDoctorType extends formFildDataType {
     jobTitle: string;
 
 }
 
 
 export default function SignIn() {
-    const [patientData, setPatientData] = useState<Partial<regDataPatient>>({});
-    const [doctorData, setDoctorData] = useState<Partial<regDataDoctor>>({});
-    const [formFildData, setFormFildData] = useState<Partial<regDataPatient>>({});
+    const [patientData, setPatientData] = useState<Partial<regDataPatientType>>({});
+    const [doctorData, setDoctorData] = useState<Partial<regDataDoctorType>>({});
+    const [formFildData, setFormFildData] = useState<Partial<formFildDataType>>({});
     const [isDoctor, setIsDoctor] = useState<boolean>(false);
-    const [errors, setErrors] = useState<Partial<regDataPatient | regDataDoctor>>({});
+    const [errors, setErrors] = useState<Partial<regDataPatientType | regDataDoctorType>>({});
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,type:string) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement|HTMLTextAreaElement>,type:"doctor"|'patient'|'formFields') => {
         const {name, value} = e.target;
 
         switch (type) {
@@ -80,6 +79,23 @@ export default function SignIn() {
         // }
     };
 
+    const clearRegData = () => {
+        setFormFildData({});
+        setDoctorData({});
+        setPatientData({})
+    }
+
+    const changeFor=(type:"doctor"|"patient") => {
+        if(type === "doctor"){
+            clearRegData()
+            setIsDoctor(true)
+        }
+        else if(type === "patient"){
+            clearRegData()
+            setIsDoctor(false)
+        }
+    }
+
     return (
         <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg overflow-hidden mx-auto mt-10">
             <div className="bg-blue-600 text-white p-6 text-center">
@@ -90,22 +106,22 @@ export default function SignIn() {
                 <div className="bg-white rounded-full p-1 shadow-md flex items-center">
                     <button className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                         !isDoctor ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
-                            onClick={() => setIsDoctor(false)}>Patient
+                            onClick={()=>changeFor("patient")}>Patient
                     </button>
                     <button className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                         isDoctor ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
-                            onClick={() => setIsDoctor(true)}>Doctor
+                            onClick={() => changeFor("doctor")}>Doctor
                     </button>
                 </div>
             </div>
             <div className="relative w-full mx-auto min-h-[500px] mt-6 px-5">
-                <FormFields handleChange={handleChange}/>
+                <FormFields handleChange={handleChange} formFildData={formFildData}/>
                 {isDoctor ?
-                    <DoctorForm handleChange={handleChange}/>
+                    <DoctorForm handleChange={handleChange} doctorData={doctorData}/>
 
                     :
 
-                   <PatientForm handleChange={handleChange}/>
+                   <PatientForm handleChange={handleChange} patientData={patientData}/>
 
 
                 }
