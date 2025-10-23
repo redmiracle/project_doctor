@@ -9,14 +9,14 @@ interface Props {
 }
 
 export default function FormFields({handleChange,formFildData}: Props) {
-    const {firstName,lastName,email,password,phoneNum,hospital}=formFildData;
+    const {name,lastName,email,password,phone,hospital}=formFildData;
 
     return (
         <>
             <div>
                 <label className={styles.label}>First Name</label>
-                <input name="firstName" onChange={e=>handleChange(e,'formFields')} type="text"
-                      value={firstName?firstName:''}  placeholder="Enter your first name" className={styles.input}/>
+                <input name="name" onChange={e=>handleChange(e,'formFields')} type="text"
+                       value={name?name:''} placeholder="Enter your first name" className={styles.input}/>
             </div>
 
             <div>
@@ -37,8 +37,8 @@ export default function FormFields({handleChange,formFildData}: Props) {
 
             <div>
                 <label className={styles.label}>Phone Number</label>
-                <input name="phoneNum"  onChange={e=>handleChange(e,'formFields')} type="tel"
-                      value={phoneNum?password:''}  placeholder="Enter your phone number" className={styles.input}/>
+                <input name="phone" onChange={e=>handleChange(e,'formFields')} type="tel"
+                       value={phone?password:''} placeholder="Enter your phone number" className={styles.input}/>
             </div>
 
             <div>

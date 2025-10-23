@@ -22,6 +22,7 @@ export function LogIn() {
         setError({ email: emailError || undefined, password: passwordError || undefined });
         if (!emailError && !passwordError) {
             console.log("The form is valid, data to send:", loginData);
+
         }
     };
 
@@ -69,7 +70,7 @@ export function LogIn() {
                     </button>
                 </div>
 
-                <p className="text-center text-sm text-gray-600">Don't have an account?
+                <p className="text-center text-sm text-gray-600">Don&#39;t have an account?
                     <button type="button" className="text-blue-600 hover:text-blue-800 font-medium">Register
                         now</button>
                 </p>

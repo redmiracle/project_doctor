@@ -10,19 +10,19 @@ import axios from "axios";
 
 
 export interface formFildDataType{
-    firstName: string;
+    name: string;
     lastName: string;
     email: string;
     password: string;
-    phoneNum: string;
+    phone: string;
     hospital: string;
 }
 
 
 export interface regDataPatientType extends formFildDataType {
-    bloodGroup: string;
-    allergic: string;
-    patientID: string;
+    "bloodGroup":string,
+    "allergic": string,
+    "doctorId": string,
 }
 
 export interface regDataDoctorType extends formFildDataType {
@@ -36,7 +36,7 @@ export default function SignIn() {
     const [doctorData, setDoctorData] = useState<Partial<regDataDoctorType>>({});
     const [formFildData, setFormFildData] = useState<Partial<formFildDataType>>({});
     const [isDoctor, setIsDoctor] = useState<boolean>(false);
-    const [errors, setErrors] = useState<Partial<regDataPatientType | regDataDoctorType>>({});
+    // const [errors, setErrors] = useState<Partial<regDataPatientType | regDataDoctorType>>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement|HTMLTextAreaElement>,type:"doctor"|'patient'|'formFields') => {
         const {name, value} = e.target;
@@ -44,10 +44,13 @@ export default function SignIn() {
         switch (type) {
             case 'doctor':
                 setDoctorData((prev) => ({...prev, [name]: value}))
+                break;
             case 'patient':
                 setPatientData((prev) => ({...prev, [name]: value}))
+                break;
             case 'formFields':
                 setFormFildData((prev) => ({...prev, [name]: value}));
+                break;
         }
 
         // if (!isDoctor) {
@@ -59,7 +62,8 @@ export default function SignIn() {
 
     const  handleClick =async () => {
 
-        const currentData=isDoctor ? {...formFildData,...doctorData} : {...formFildData,...patientData};
+        const currentData=isDoctor ? {role:"doctor",...formFildData,...doctorData}
+            : {role:"patient",...formFildData,...patientData};
         console.log(currentData);
         try{
             const res = axios.post("http://localhost:8080/account/register/patient", currentData);

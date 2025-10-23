@@ -11,22 +11,15 @@ interface Props {
 
 
 export default function PatientForm({ handleChange,patientData }:Props) {
-    const {bloodGroup,allergic,patientID}=patientData
+    const {allergic,doctorId,bloodGroup}=patientData
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label  className="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
-                    <input
-                        onChange={e=>handleChange(e,'patient')}
-                        value={patientID??''}
-                        name="patientId" type="text" placeholder="Enter your patient ID"
-                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"/>
-                </div>
+
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
                     <select name="bloodGroup"
-                            value={bloodGroup?bloodGroup:''}
+                            value={bloodGroup??''}
                             onChange={e=>handleChange(e,'patient')}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white">
                         <option value="" disabled>Blood Group</option>
