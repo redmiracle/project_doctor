@@ -23,6 +23,7 @@ export function LogIn() {
         if (!emailError && !passwordError) {
             console.log("The form is valid, data to send:", loginData);
 
+
         }
     };
 
