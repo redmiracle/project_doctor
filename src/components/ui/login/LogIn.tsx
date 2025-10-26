@@ -1,28 +1,37 @@
 'use client'
 
-import React, {useState} from "react";
-import {validateEmail, validatePassword} from "@/lib/utils/validation";
+import React, {startTransition, useActionState, useEffect, useState} from "react";
+import {loginDataType} from "@/type";
+import {loginActions} from "@/lib/serverActions/loginAction";
 
-
-
-interface loginData {
-    email: string;
-    password: string;
-}
 
 export function LogIn() {
-    const [error, setError] = useState<{ email?: string; password?: string }>({});
-    const [loginData, setLoginData] = useState<Partial<loginData>>({});
+    const [state, action, pending] = useActionState(loginActions, null)
+
+    const [error, setError] = useState<Partial<{ error: string } | null>>({});
+    const [loginData, setLoginData] = useState<Partial<loginDataType>>({});
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginData({...loginData, [e.target.name]: e.target.value});
     }
+
+    useEffect(() => {
+        setError(state);
+    }, [state])
+
+
     const handleClick = () => {
-        const emailError = validateEmail(loginData.email || "");
-        const passwordError = validatePassword(loginData.password || "");
-        setError({ email: emailError || undefined, password: passwordError || undefined });
-        if (!emailError && !passwordError) {
-            console.log("The form is valid, data to send:", loginData);
-        }
+        // const emailError = validateEmail(loginData.login || "");
+        // const passwordError = validatePassword(loginData.password || "");
+        // setError({ email: emailError || undefined, password: passwordError || undefined });
+        // if (!emailError && !passwordError) {
+        console.log("The form is valid, data to send:", loginData);
+        startTransition( () => {
+            action(loginData);
+
+
+        });
+
+
     };
 
     return (
@@ -35,17 +44,17 @@ export function LogIn() {
             <div className="p-6 pt-8 space-y-6">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email
-                        <input type="email" name={"email"} onChange={handleChange}
+                        <input type="email" name={"login"} onChange={handleChange}
                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                               placeholder="your.email@example.com"/>{error.email &&
-                            <p className="text-red-500 text-sm mt-1">{error.email}</p>}
+                               placeholder="your.email@example.com"/>
+                        <p className="text-red-500 text-sm mt-1"></p>
                     </label>
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Password
                         <input type="password" name="password" onChange={handleChange} placeholder="Enter your password"
                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"/>
-                        {error.password && <p className="text-red-500 text-sm mt-1">{error.password}</p>}
+                        {<p className="text-red-500 text-sm mt-1"></p>}
                         <button
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
                         </button>
@@ -63,11 +72,21 @@ export function LogIn() {
                 </div>
 
                 <div>
+                    {pending?
+                     <div className={"text-center"}>WAIT</div>
+
+                     :
                     <button type="submit"
                             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-md flex items-center justify-center"
                             onClick={handleClick}>Sign in
                     </button>
+                    }
                 </div>
+
+                    {error?.error && (
+                        <p className="text-red-500 text-sm mt-1 text-center">{error.error}</p>)
+                    }
+
 
                 <p className="text-center text-sm text-gray-600">Don't have an account?
                     <button type="button" className="text-blue-600 hover:text-blue-800 font-medium">Register

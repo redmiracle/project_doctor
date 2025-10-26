@@ -39,3 +39,16 @@ export interface alertStatsType {
     bgColor: string,
 
 }
+
+export interface loginDataType {
+    login: string;
+    password: string;
+}
+
+export interface loginResType {
+    "role":string,
+    "name": string,
+    "lastName": string,
+    "email": string,
+
+}
