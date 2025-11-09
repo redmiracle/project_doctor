@@ -13,10 +13,16 @@ export const doctorLinks: headerLinksType[] = [
         icon:listIcon("size-8"),
     },
     {
+        pathLink: "/doctor/patientInfo/1",
+        name: "Patient Metrics",
+        icon:settingsIcon("size-8"),
+    },
+    {
         pathLink: "/doctor/settings",
         name: "Settings",
         icon:settingsIcon("size-8"),
     },
+
 
 
 ]

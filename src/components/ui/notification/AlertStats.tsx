@@ -41,7 +41,6 @@ export default function AlertStats() {
             <h2 className={"text-2xl text-gray-400 pb-1 mb-2"}>Alert Stats</h2>
             <ul>
                 {alertStats.map((stats) => {
-                    console.log(stats.bgColor);
                     return (
                         <li key={stats.name} className={`flex items-start `}>
                             <div

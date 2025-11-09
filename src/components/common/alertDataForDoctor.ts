@@ -41,7 +41,8 @@ export const alertDataForDoctor:alertDataTypeDoc[]=[
         indicationNormal:"(normal: 95-100)",
         time:"18:30"
 
-    }
+    },
+
 
 
 ]

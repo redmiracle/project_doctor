@@ -52,3 +52,22 @@ export interface loginResType {
     "email": string,
 
 }
+
+export interface patientInfoType {
+    name: string;
+    lastName: string;
+    id: string;
+    age: string;
+    bloodType: string;
+    gender: string;
+    diagnosis: string;
+}
+
+export interface patientMetricDataType {
+    icon: string,
+    name: string,
+    type: string,
+    metrics: string,
+    metricType:string
+
+}
