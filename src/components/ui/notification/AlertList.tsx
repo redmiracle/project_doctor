@@ -16,7 +16,8 @@ export default function AlertsList({alertListData}: Props): JSX.Element {
         <div className={"shadow-xl border-1 border-gray-200 pt-3 px-5 rounded-lg"}>
 
             <h2 className={"text-2xl text-gray-400 pb-1 mb-2"}>Active Alert</h2>
-            {alertListData.map((alertData) => {
+            {alertListData.map((alertData
+            ) => {
 
                 const {color, borderColor, icon} = getFormStyle(alertData.indicationType)
                 return (
