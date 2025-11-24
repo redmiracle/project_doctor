@@ -86,11 +86,11 @@ export default function ReportButton() {
 
             const temperature=metricData.bodyTemperature
             newData.temperature.metric = temperature
-            newData.bloodPressure.status =isNormal(hearRate,35.5,37.2) ? "normal" : "warning"
+            newData.temperature.status =isNormal(hearRate,35.5,37.2) ? "normal" : "warning"
 
             const oxygenSaturation=metricData.oxygenSaturation
             newData.oxygenSaturation.metric = metricData.oxygenSaturation
-            newData..oxygenSaturation.status=isNormal(oxygenSaturation,92,100) ? "normal" : "warning"
+            newData.oxygenSaturation.status=isNormal(oxygenSaturation,92,100) ? "normal" : "warning"
 
 
 

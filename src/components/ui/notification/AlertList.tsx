@@ -20,7 +20,7 @@ export default function AlertsList({alertListData}: Props): JSX.Element {
             ) => {
 
                 const {color, borderColor, icon} = getFormStyle(alertData.problem)
-                function pad(n){ return n.toString().padStart(2,'0'); }
+                function pad(n:number){ return n.toString().padStart(2,'0'); }
                 const d = new Date(alertData.alarmTime);
                 const localHHMM = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
                 return (

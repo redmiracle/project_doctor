@@ -66,7 +66,7 @@ export interface patientMetricDataType {
 }
 
 interface newMetricData {
-    "heartRate": string;,
+    "heartRate": string,
     "systolicBloodPressure": string,
     "diastolicBloodPressure": string,
     "bodyTemperature": string,

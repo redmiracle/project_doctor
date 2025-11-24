@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 interface metricType {
     metric: string;
     unit: string;
-    status: "normal" | "warning";
+    status: "normal" | "warning"|"";
 }
 
 
@@ -24,26 +24,26 @@ const initialState: MetricReportSliceType = {
     isLoading: false,
     data: {
         heartRate: {
-            metric: "90",
+            metric: "-//-",
             unit: "bpm",
-            status: "normal",
+            status: "",
 
         },
         bloodPressure: {
-            metric: "190/10",
+            metric: "-//-",
             unit: "mmHg",
-            status: "warning",
+            status: "",
 
         },
         temperature: {
-            metric: "37.2",
+            metric: "-//-",
             unit: "c",
-            status: "warning",
+            status: "",
         },
         oxygenSaturation: {
-            metric: "98",
+            metric: "-//-",
             unit: "%",
-            status: "normal",
+            status: "",
         }
     }
 }
