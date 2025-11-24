@@ -5,14 +5,28 @@ import {useAppDispatch} from "@/lib/app/hooks";
 import {useEffect} from "react";
 
 interface Props {
-    name: "pulse" | "bloodPressure" | "oxygen" | "temperature";
+    name: string;
 }
 
 export default function  ALertStatsControler({name}:Props) {
     const dispatch = useAppDispatch();
 
+    const getNameCor = (data: string) => {
+        if (data.startsWith("Heart")) {
+            return "pulse"
+        } else if (data.startsWith("Body")) {
+            return "temperature"
+        } else if (data.startsWith("Oxygen")) {
+            return "oxygen"
+        } else {
+            return "bloodPressure"
+        }
+    }
+
+    
+
     useEffect(() => {
-        dispatch(addCount(name))
+        dispatch(addCount(getNameCor(name)))
         return () => {
             dispatch(resetCounts())
         }

@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import {MetricKeys} from "@/lib/app/slices/metricReportSlice";
 
 export interface headerLinksType {
     pathLink: string;
@@ -6,28 +7,19 @@ export interface headerLinksType {
     icon: ReactNode;
 }
 
-export type indicationType ="pulse" | "bloodPressure" | "oxygen" | "temperature";
 
-export interface alertDataTypeDoc {
-    indicationType: indicationType;
-    name: string;
-    lastName: string;
-    id: string;
-    indicationPatient: string;
-    indicationNormal: string;
-    time: string;
 
-}
-
-export interface alertDataTypePac {
-    indicationType: indicationType;
-    indicationPatient: string;
-    indicationNormal: string;
-    time: string;
+export interface alertDataType {
+    "patientId": string,
+    "metricsId": string,
+    "name": string,
+    "lastname": string,
+    "hospital": string,
+    "alarmTime": string,
+    "problem": string,
 
 }
 
-export type alertDataType =alertDataTypeDoc[] | alertDataTypePac[];
 
 
 
@@ -46,7 +38,8 @@ export interface loginDataType {
 }
 
 export interface loginResType {
-    "role":string,
+    "id": string,
+    "role": string,
     "name": string,
     "lastName": string,
     "email": string,
@@ -67,7 +60,16 @@ export interface patientMetricDataType {
     icon: string,
     name: string,
     type: string,
-    metrics: string,
+    metrics: MetricKeys ,
     metricType:string
+
+}
+
+interface newMetricData {
+    "heartRate": string;,
+    "systolicBloodPressure": string,
+    "diastolicBloodPressure": string,
+    "bodyTemperature": string,
+    "oxygenSaturation": string,
 
 }

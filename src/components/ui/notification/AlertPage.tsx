@@ -1,31 +1,42 @@
 import AlertsList from "@/components/ui/notification/AlertList";
 
 import AlertStats from "@/components/ui/notification/AlertStats";
-import {alertDataForDoctor} from "@/components/common/alertDataForDoctor";
-import {alertDataForPacient} from "@/components/common/alertDataForPacient";
+
+import {alertDataType} from "@/type";
+import {baseUrl} from "@/components/common/const";
+import {cookies} from "next/headers";
+
 interface Props {
     isForDoctor:boolean
 }
 
 export default async function AlertPage({isForDoctor}:Props) {
-    //This is place for fetch request
-    // const alertListData = alertDataForDoctor
+
+    console.log("helo")
+
+    const cookie = await cookies()
+    const data = cookie.get("userData")
+    const {id,encoder}=JSON.parse(data!.value);
+    const url=isForDoctor?`${baseUrl}/doctors/${id}/alarms`:`${baseUrl}/patients/${id}/alarms/all`;
 
 
-    const credentials = `panna.grown@example.com:5678`
-    const encoder = Buffer.from(credentials).toString("base64");
+
     try {
-        const response = await fetch("http://localhost:8080/account/doctors/68f8a8062e4ebe6ed85ccab5/alarms", {
+        const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Basic ${encoder}`
             }
         })
+        if(response.status===404){
+            console.log("error 404")
+        }
 
         if(response.ok){
-            const data = await response.json();
-            console.log(data)
+            const data = await response.json() as alertDataType[];
+            console.log("data", data);
+
             return (
                 <div>
                     <h2>Emergency Alerts</h2>
@@ -45,7 +56,7 @@ export default async function AlertPage({isForDoctor}:Props) {
     }
     catch (error) {
 
-        console.log(error.message);
+        console.log("error");
     }
 
 

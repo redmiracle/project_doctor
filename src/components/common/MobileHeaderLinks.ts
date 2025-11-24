@@ -13,7 +13,7 @@ export const doctorLinks: headerLinksType[] = [
         icon:listIcon("size-8"),
     },
     {
-        pathLink: "/doctor/patientInfo/1",
+        pathLink: "/doctor/patientInfo",
         name: "Patient Metrics",
         icon:settingsIcon("size-8"),
     },
@@ -34,8 +34,8 @@ export const patientLinks: headerLinksType[] = [
         icon:alarmIcon("size-9"),
     },
     {
-        pathLink: "/patient/indicators",
-        name: "Indicators",
+        pathLink: "/patient/patientInfo",
+        name: "Patient Info",
         icon:chartIcon("size-9"),
     },
     {

@@ -6,6 +6,8 @@ import {alertStatsType} from "@/type";
 export default function AlertStats() {
 
 
+
+
     const alertStats:alertStatsType[] = [
         {
             icon: "/heartRate.png",

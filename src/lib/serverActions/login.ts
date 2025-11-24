@@ -4,10 +4,14 @@
 
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
+import {loginResType} from "@/type";
 
-export async function logIn(role: string) {
+export async function logIn(role:string,id:string,encoder:string):Promise<void> {
+
+
+
     const loginData = {
-        token: "adad", role
+        token: "adad", role,id,encoder
     }
 
     const cookie = await cookies()

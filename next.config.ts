@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
                 hostname: 'maxbess.sirv.com',
                 pathname: '/**'
 
+            },
+            {
+                protocol: 'https',
+                hostname: 'http://www.w3.org',
+                pathname: '/**'
             }
         ]
     }

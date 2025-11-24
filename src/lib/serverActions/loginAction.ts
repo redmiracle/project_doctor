@@ -1,6 +1,7 @@
 'use server'
 import {loginDataType, loginResType} from "@/type";
 import {logIn} from "@/lib/serverActions/login";
+import {baseUrl} from "@/components/common/const";
 
 export async function loginActions(_: unknown, loginData: Partial<loginDataType>) {
 
@@ -14,7 +15,7 @@ export async function loginActions(_: unknown, loginData: Partial<loginDataType>
     const encoder = Buffer.from(credentials).toString("base64");
 
     try {
-        const response = await fetch("http://localhost:8080/account/me",
+        const response = await fetch(`${baseUrl}/me`,
             {
                 method: "GET",
                 headers: {
@@ -31,9 +32,9 @@ export async function loginActions(_: unknown, loginData: Partial<loginDataType>
             return {error: "something went wrong"};
         }
 
-        const res = await response.json() as loginResType;
+        const data = await response.json() as loginResType;
 
-        await logIn(res.role.toLowerCase())
+        await logIn(data.role.toLowerCase(),data.id,encoder);
         return null
     }catch(err) {
         return {error: "network error"};

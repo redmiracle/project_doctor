@@ -1,9 +1,11 @@
-import { configureStore} from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import alertCount from "@/lib/app/slices/ALertCountSlice";
+import metricReport from "@/lib/app/slices/metricReportSlice";
 
 export const store = configureStore({
     reducer: {
-       alertCount,
+        alertCount,
+        metricReport,
     },
 })
 
