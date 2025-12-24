@@ -11,7 +11,7 @@ export async function logIn(role:string,id:string,encoder:string):Promise<void> 
 
 
     const loginData = {
-        token: "adad", role,id,encoder
+        token: "adad", role,id,encoder,patientId:id,
     }
 
     const cookie = await cookies()

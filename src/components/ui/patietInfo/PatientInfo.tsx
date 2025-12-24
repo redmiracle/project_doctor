@@ -1,14 +1,14 @@
 import PersonalInfo from "@/components/ui/patietInfo/items/PersonalInfo";
-import {patientInfo} from "@/components/common/patientInfo";
+
 import ActualMetrics from "@/components/ui/patietInfo/items/ActualMetrics";
-import {metricData} from "@/components/common/metricData";
+
 import {cookies} from "next/headers";
 import Hero from "@/components/ui/patietInfo/items/Hero";
+import Trends from "@/components/ui/patietInfo/items/trends/Trends";
 
 
 export default async function PatientInfo() {
-    const fetchPatientInfo = patientInfo
-    const fetchMetricData = metricData
+
     try {
         const cookie = await cookies();
         const {role} = await JSON.parse(cookie.get("userData")!.value)
@@ -18,11 +18,13 @@ export default async function PatientInfo() {
                 <Hero role={role}/>
                 <div className={`${role==="patient"?`grid grid-cols-[1fr_2fr]`:""} gap-5 `}>
 
-                    <PersonalInfo patientInfoData={fetchPatientInfo}/>
+                    <PersonalInfo/>
                     {role==="patient" &&
-                    <ActualMetrics metricData={fetchMetricData}/>
+                    <ActualMetrics/>
                     }
+
                 </div>
+                <Trends/>
             </div>
         )
 

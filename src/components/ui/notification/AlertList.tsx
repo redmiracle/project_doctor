@@ -1,8 +1,10 @@
-import {alertDataType} from "@/type";
+import {alertDataType, cookiesDataType} from "@/type";
 import {JSX} from "react";
 import Image from "next/image";
 import {getFormStyle} from "@/components/common/alertFormStyle";
 import ALertStatsControler from "@/components/ui/notification/ALertStatsControler";
+
+import {GetPatientInformation} from "@/components/common/GetPatientInformation";
 
 
 interface Props {
@@ -12,17 +14,24 @@ interface Props {
 export default function AlertsList({alertListData}: Props): JSX.Element {
 
 
+
+
+
     return (
         <div className={"shadow-xl border-1 border-gray-200 pt-3 px-5 rounded-lg"}>
 
             <h2 className={"text-2xl text-gray-400 pb-1 mb-2"}>Active Alert</h2>
-            {alertListData.map((alertData,key
+            {alertListData.map((alertData, key
             ) => {
 
                 const {color, borderColor, icon} = getFormStyle(alertData.problem)
-                function pad(n:number){ return n.toString().padStart(2,'0'); }
+
+                function pad(n: number) {
+                    return n.toString().padStart(2, '0');
+                }
+
                 const d = new Date(alertData.alarmTime);
-                const localHHMM = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+                const localHHMM = `${pad(d.getHours() + 2) % 24}:${pad(d.getMinutes())}`;
                 return (
 
                     <section
@@ -48,7 +57,11 @@ export default function AlertsList({alertListData}: Props): JSX.Element {
 
 
                         </ul>
-                        <p className={"text-sm ms-auto"}>{localHHMM}</p>
+                        <div className=" ms-auto flex flex-col justify-between items-end h-[90px]">
+                            <p className={"text-sm"}>{localHHMM}</p>
+                            <GetPatientInformation/>
+                        </div>
+
                     </section>
 
                 )

@@ -2,18 +2,24 @@
 
 import {useAppDispatch, useAppSelector} from "@/lib/app/hooks";
 import {changeMetricData, changeMetricLoadingStatus} from "@/lib/app/slices/metricReportSlice";
-import React, {useEffect, useState} from "react";
+import React, {startTransition, useActionState, useEffect, useState} from "react";
 import {noIcon, okIcon} from "@/lib/icons/icons";
 import Spinner from "@/featurs/spinner/Spinner";
 import {newMetricData} from "@/type";
+import {addMetric} from "@/lib/serverActions/addMetric";
+import {checkDataMetric} from "@/components/common/checkAlertData";
+
+
+import { useRouter } from "next/navigation";
 
 
 export default function ReportButton() {
-
+    const router = useRouter()
     const dispatch = useAppDispatch()
     const isMetricLoading = useAppSelector(state => state.metricReport.isLoading)
     const [isClicked, setIsCLiked] = useState(false)
     const [newMetricData, setNewMetricData] = useState<Partial<newMetricData>>({})
+    const [state, action, pending] = useActionState(addMetric, null);
 
 
     const getRandomInt = (min: number, max: number) => {
@@ -25,46 +31,9 @@ export default function ReportButton() {
     }
 
 
-    const isNormal = (metric: string, from: number, to: number) =>
-        Number(metric) > from && Number(metric) <= to
-
-
-
-    const newData = {
-        heartRate: {
-            metric: "",
-            unit: "bpm",
-            status: "warning",
-
-        },
-        bloodPressure: {
-            metric: "",
-            unit: "mmHg",
-            status: "warning",
-
-        },
-        temperature: {
-            metric: "",
-            unit: "c",
-            status: "normal",
-        },
-        oxygenSaturation: {
-            metric: "",
-            unit: "%",
-            status: "normal",
-        }
-
-    }
-
-    useEffect(() => {
-
-
-    }, [newMetricData])
-
     const handleCLick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isClicked) {
-
-            const metricData = {
+            const metricData: newMetricData = {
                 heartRate: getRandomInt(40, 200) + "",
                 systolicBloodPressure: getRandomInt(80, 180) + "",
                 diastolicBloodPressure: getRandomInt(50, 100) + "",
@@ -72,26 +41,9 @@ export default function ReportButton() {
                 oxygenSaturation: getRandomInt(70, 90) + "",
 
             }
+            const newData = checkDataMetric(metricData)
 
             setNewMetricData({...newData, ...metricData})
-
-            const hearRate = metricData.heartRate
-            newData.heartRate.metric = hearRate
-            newData.heartRate.status =isNormal(hearRate,60,120) ? "normal" : "warning"
-
-            const systolic=metricData.systolicBloodPressure
-            const diastolic= metricData.diastolicBloodPressure
-            newData.bloodPressure.metric = `${systolic}/${diastolic}`
-            newData.bloodPressure.status = isNormal(systolic,90,120)&&isNormal(diastolic,60,80) ? "normal" : "warning"
-
-            const temperature=metricData.bodyTemperature
-            newData.temperature.metric = temperature
-            newData.temperature.status =isNormal(hearRate,35.5,37.2) ? "normal" : "warning"
-
-            const oxygenSaturation=metricData.oxygenSaturation
-            newData.oxygenSaturation.metric = metricData.oxygenSaturation
-            newData.oxygenSaturation.status=isNormal(oxygenSaturation,92,100) ? "normal" : "warning"
-
 
 
             dispatch(changeMetricLoadingStatus(true))
@@ -109,17 +61,22 @@ export default function ReportButton() {
         } else {
             switch (e.currentTarget.id + "") {
                 case "no":
-                    console.log(e.currentTarget.id)
                     setIsCLiked(!isClicked)
                     break;
                 case "ok":
-                    console.log(e.currentTarget.id)
+                    startTransition(() => action(newMetricData))
                     break;
                 default:
                     console.log("error")
             }
         }
     }
+    useEffect(() => {
+        console.log(pending);
+        if (state) {
+            router.refresh()
+        }
+    }, [pending, state]);
 
 
     return (
@@ -137,19 +94,25 @@ export default function ReportButton() {
 
 
                 ) :
-                <div className={"flex"}>
-                    <div id={"ok"}
-                         onClick={handleCLick}
-                         className={"me-2 text-green-500 cursor-pointer hover:text-green-700 hover:scale-120 active:text-green-400 transition duration-200 ease-in-out "}>
-                        {okIcon("size-7")}
-                    </div>
-                    <div id={"no"}
-                         className={"text-red-500 cursor-pointer hover:text-red-700 hover:scale-120 active:text-red-400 transition duration-200 ease-in-out"}
+                !pending ?
+                    <div className={"flex"}>
+                        <div id={"ok"}
+                             onClick={handleCLick}
+                             className={"me-2 text-green-500 cursor-pointer hover:text-green-700 hover:scale-120 active:text-green-400 transition duration-200 ease-in-out "}>
+                            {okIcon("size-7")}
+                        </div>
+                        <div id={"no"}
+                             className={"text-red-500 cursor-pointer hover:text-red-700 hover:scale-120 active:text-red-400 transition duration-200 ease-in-out"}
 
-                         onClick={handleCLick}>
-                        {noIcon("size-7")}
+                             onClick={handleCLick}>
+                            {noIcon("size-7")}
+                        </div>
+                    </div> :
+                    <div>
+                        <Spinner/>
                     </div>
-                </div>
+
+
             }
         </div>
     )

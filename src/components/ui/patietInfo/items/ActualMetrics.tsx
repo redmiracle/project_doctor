@@ -1,20 +1,21 @@
 'use client'
 
-import {patientMetricDataType} from "@/type";
+
 import Image from "next/image";
 
 import {useAppSelector} from "@/lib/app/hooks";
 import Spinner from "@/featurs/spinner/Spinner";
+import {metricData} from "@/components/common/metricData";
 
-interface Props {
-    metricData: patientMetricDataType[]
-
-}
-
-
+// interface Props {
+//     metricData: patientMetricDataType[]
+//
+// }
 
 
-export default function ActualMetrics({metricData}: Props) {
+
+
+export default function ActualMetrics() {
 
     const metrics = useAppSelector(state => state.metricReport)
 

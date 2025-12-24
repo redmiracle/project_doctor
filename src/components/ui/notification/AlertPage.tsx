@@ -12,7 +12,6 @@ interface Props {
 
 export default async function AlertPage({isForDoctor}:Props) {
 
-    console.log("helo")
 
     const cookie = await cookies()
     const data = cookie.get("userData")
@@ -35,7 +34,7 @@ export default async function AlertPage({isForDoctor}:Props) {
 
         if(response.ok){
             const data = await response.json() as alertDataType[];
-            console.log("data", data);
+
 
             return (
                 <div>

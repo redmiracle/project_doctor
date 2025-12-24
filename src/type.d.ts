@@ -1,6 +1,15 @@
 import {ReactNode} from "react";
 import {MetricKeys} from "@/lib/app/slices/metricReportSlice";
 
+
+export interface cookiesDataType{
+    token:string,
+    role:string,
+    id:string,
+    encoder:string,
+    patientId:string,
+}
+
 export interface headerLinksType {
     pathLink: string;
     name: string;
@@ -47,13 +56,11 @@ export interface loginResType {
 }
 
 export interface patientInfoType {
-    name: string;
-    lastName: string;
-    id: string;
-    age: string;
-    bloodType: string;
-    gender: string;
-    diagnosis: string;
+    "name": string,
+    "lastName": string,
+    "phone": string,
+    "bloodGroup": string,
+    "allergic": string,
 }
 
 export interface patientMetricDataType {
