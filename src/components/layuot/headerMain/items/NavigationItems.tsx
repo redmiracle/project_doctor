@@ -10,8 +10,9 @@ export default function NavigationItems() {
                 <Link href="/contact" className={"mb-1"}>Contact</Link>
             </div>
             <div className={"flex flex-col lg:flex-row"}>
-                <Link href="/logIn" className={"mb-1 me-2 lg:mb-0"}>Sign In</Link>
-                <Link href="/signIn" className={"lg:ms-2"}>Log In</Link>
+                <Link href="/signIn" className={"mb-1 me-2 lg:mb-0"}>Sign In</Link>
+                <Link href="/logIn" className={"lg:ms-2"}>Log In</Link>
+
             </div>
 
         </div>
